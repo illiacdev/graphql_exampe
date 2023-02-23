@@ -16,6 +16,14 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     String name;
+    Integer _경력;
+
+    @Transient
+    Integer career;
+
+    public Integer getCareer() {
+        return _경력;
+    }
 
     @ManyToOne
     Team team;
