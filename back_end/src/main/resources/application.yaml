@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+#    active: docker
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  graphql:
+
+    graphiql:
+      enabled: true
+    schema:
+      printer:
+        enabled: true
+
+#    open-in-view: true
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/experiment?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    username: root
+#    password: "9999"
+    url: jdbc:mysql://mysql:3306/hygiene?useSSL=false&useUnicode=true&characterEncoding=utf8
+

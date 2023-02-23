@@ -1,0 +1,22 @@
+type Query{
+    hello:String
+    teams:[Team]
+    members:[Member]
+}
+type Mutation{
+    createTeam(name:String):Team
+    createMember(teamName:String,name:String):Member
+    deleteTeam(name:String):Team
+
+}
+
+type Team{
+    name:String
+    members:[Member]
+
+}
+
+type Member{
+    name:String
+    team:Team
+}
