@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/back_end.main.iml" filepath="$PROJECT_DIR$/.idea/modules/back_end.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.back_end.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.back_end.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/example_graphql.iml" filepath="$PROJECT_DIR$/example_graphql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/front_end.iml" filepath="$PROJECT_DIR$/front_end.iml" />
     </modules>
   </component>
 </project>
