@@ -21,7 +21,7 @@ class App extends Component {
                     // let blob = new Blob(this.file);
                     let formData = new FormData();
                     formData.append("file", this.file);
-                    axios.post("http://localhost:8081/api/upload",formData,{headers: {"Content-Type": "multipart/form-data"}}).then(value => {
+                    axios.post("/api/upload",formData,{headers: {"Content-Type": "multipart/form-data"}}).then(value => {
                         console.log(value.data);
                     }).catch(reason => {
                         console.log(reason);
