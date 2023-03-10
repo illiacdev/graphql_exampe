@@ -1,34 +1,17 @@
 import React, {Component} from 'react';
-import {Button, Input} from "antd";
-import axios from "axios";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Dev from "./Dev";
+import Main from "./Main";
 
 class App extends Component {
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-
-    }
-
-    file = {};
     render() {
         return (
-            <div>
-                <Input type={"file"} onChange={(e:any)=>{
-
-                    this.file = e.target.files[0];
-                    console.log('this.file',this.file)
-                }}/>
-                <Button onClick={()=>{
-
-                    // let blob = new Blob(this.file);
-                    let formData = new FormData();
-                    formData.append("file", this.file);
-                    axios.post("/api/upload",formData,{headers: {"Content-Type": "multipart/form-data"}}).then(value => {
-                        console.log(value.data);
-                    }).catch(reason => {
-                        console.log(reason);
-                    })
-                }
-                }>전송</Button>
-            </div>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={"/"} element={<Main/>}/>
+                    <Route path={"/dev"} element={<Dev/>}/>
+                </Routes>
+            </BrowserRouter>
         );
     }
 }
