@@ -47,4 +47,11 @@ public class Controller {
     Optional<Team> deleteTeam(@Argument("name")String name){
         return service.deleteTeam(name);
     }
+
+
+    @MutationMapping
+    Mono<Long> delete_member(@Argument("name")String name){
+        return service.delete_member(name).map(aLong -> Mono.just(aLong)).orElse(Mono.empty());
+
+    }
 }

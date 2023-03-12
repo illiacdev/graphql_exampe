@@ -1,0 +1,8 @@
+extend type Query {
+    time:String
+}
+
+extend type Mutation {
+    delete_member(name:String):Int
+    set_time:String
+}

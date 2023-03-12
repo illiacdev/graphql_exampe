@@ -1,16 +1,26 @@
 import React, {Component} from 'react';
 import {Button, Form, Input, InputNumber, Table, Typography} from "antd";
 import {observer} from "mobx-react";
-import {Store} from "./Store";
-import {columns_user, Item} from "./Item";
+// import {Store} from "./Store";
 
 
+export type ID = string | number
+export type Payload = { id: ID } & any;
+export abstract class TStore {
+    abstract update(payload:Payload):void;
+    abstract delete(id: ID):void;
+    abstract load(): void;
+
+    dataSource: any[] = [];
+}
+
+export type Record = { id: string|number } & any;
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
     title: any;
     inputType: 'number' | 'text';
-    record: Item;
+    record: Record;
     index: number;
     children: React.ReactNode;
 }
@@ -56,8 +66,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
 //수정 handler
 
 
-class EditableTable extends Component {
-    store = new Store();
+class EditableTable extends Component<{store:TStore,columns_user:any[]}> {
+    store = this.props.store;
 
     state = {editingKey: undefined}
 
@@ -69,12 +79,11 @@ class EditableTable extends Component {
         {
             title: 'operation',
             dataIndex: 'operation',
-            render: (_: any, record: Item) => {
+            render: (_: any, record: Record) => {
                 const editable = this.isEditing(record);
                 let that = this;
 
-                function edit(record: Item) {
-                    console.log("onClick!");
+                function edit(record: Record) {
                     that.setState({editingKey: record.id})
                     that.form.setFieldsValue({...record});
                 }
@@ -89,7 +98,8 @@ class EditableTable extends Component {
                         <Typography.Link onClick={() => {
                             // let fieldsValue: { qty: number } = that.form.getFieldsValue('qty');
                             let fieldsValue: any = that.form.getFieldsValue();
-                            this.store.update(record, fieldsValue);
+                            // this.store.update(record, fieldsValue);
+                            this.store.update({...fieldsValue, id: record.id})
                             cancel();
 
                             // record.qty = fieldsValue;
@@ -116,9 +126,10 @@ class EditableTable extends Component {
                 );
             }
         }, {
-            render: (_: any, record: Item) => <Button
+            render: (_: any, record: Record) => <Button
                 onClick={async () => {
-                    this.store.delete_item(record)
+                    // this.store.delete_item(record)
+                    this.props.store.delete(record.id);
 
 
                 }}>삭제</Button>
@@ -126,14 +137,11 @@ class EditableTable extends Component {
 
     ];
 
-    columns = [...columns_user, ...this.columns_base];
+    columns = [...this.props.columns_user, ...this.columns_base];
 
-    isEditing = (record: Item) => {
-        console.log("TAG isEditing", "??");
-        return record.id === this.state.editingKey;
-    };
+    isEditing = (record: Record) => record.id === this.state.editingKey;
 
-    mergedColumns = this.columns.map((col) => {
+    mergedColumns = this.columns.map((col:{editable?:boolean} & any) => {
         let {isEditing} = this;
         // console.log("TAG1", JSON.stringify(col));
         if (!col.editable) {
@@ -141,7 +149,7 @@ class EditableTable extends Component {
         }
         return {
             ...col,
-            onCell: (record: Item) => ({
+            onCell: (record: Record) => ({
                 record,
                 inputType: col.dataIndex === 'qty' ? 'number' : 'text',
                 dataIndex: col.dataIndex,

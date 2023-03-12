@@ -16,7 +16,13 @@ spring:
     schema:
       printer:
         enabled: true
-
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: debug
+    sql: debug
+#    root: debug
+#    web: debug
 #    open-in-view: true
 ---
 spring:

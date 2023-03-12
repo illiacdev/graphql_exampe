@@ -6,6 +6,7 @@ import com.example.back_end.domain.Team;
 import com.example.back_end.domain.TeamRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class Service {
     @Transactional
     public Optional<Member> createMember(String teamName, String name) {
 
-        return Optional.of(teamName)
+       /* return Optional.of(teamName)
                 .flatMap(s -> teamRepository.findByName(teamName))
                 .flatMap(team -> Optional
                         .of(Member.builder().name(name).team(team).build())
@@ -45,7 +46,20 @@ public class Service {
                             team.getMembers().add(save);
                             teamRepository.save(team);
                             return save;
+                        }));*/
+
+
+        return Optional.of(teamName)
+                .flatMap(s -> teamRepository.findByName(teamName))
+                .flatMap(team -> Optional
+                        .of(Member.builder().name(name).build())
+                        .map(member -> {
+                            Member save = memberRepository.save(member);
+                            team.getMembers().add(save);
+                            teamRepository.save(team);
+                            return save;
                         }));
+
     }
 
     public Optional<Team> deleteTeam(String name) {
@@ -55,5 +69,11 @@ public class Service {
                     teamRepository.delete(team);
                     return team;
                 });
+    }
+
+
+    @Transactional
+    public Optional<Long> delete_member(String name) {
+        return memberRepository.deleteByName(name);
     }
 }
