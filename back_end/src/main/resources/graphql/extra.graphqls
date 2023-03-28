@@ -1,8 +1,28 @@
+
 extend type Query {
-    time:String
+
+    teams:[Team]
+    members:[Member]
+
 }
 
 extend type Mutation {
+    createTeam(name:String):Team
+    createMember(teamName:String,name:String):Member
+    deleteTeam(name:String):Team
+
     delete_member(name:String):Int
-    set_time:String
+}
+
+
+type Team{
+    name:String
+    members:[Member]
+
+}
+
+type Member{
+    name:String
+    career:Int
+    team:Team
 }

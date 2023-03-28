@@ -1,23 +1,17 @@
+scalar LocalDate
+scalar LocalDateTime
+
+
 type Query{
-    hello:String
-    teams:[Team]
-    members:[Member]
+    time:String
+    info:[Info]
 }
 type Mutation{
-    createTeam(name:String):Team
-    createMember(teamName:String,name:String):Member
-    deleteTeam(name:String):Team
-
+    createInfo(name:String,value:String):Info
 }
 
-type Team{
+type Info{
     name:String
-    members:[Member]
-
+    value:String
 }
 
-type Member{
-    name:String
-    career:Int
-    team:Team
-}
